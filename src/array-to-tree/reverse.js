@@ -1,0 +1,1 @@
+function reverse(data) { }

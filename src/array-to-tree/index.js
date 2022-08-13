@@ -37,35 +37,39 @@ function validateAdapter(adapter) {
     is_sub_tree = (v) => isNothing(v[parent_id]),
   } = adapter
 
+  if (id && parent_id && id === parent_id) {
+    errors.push(`The 'adapter.id' equals with 'adapter.parent_id'.`)
+  }
+
   const k1 = kindOf(id)
   if (id && k1 !== 'string') {
-    errors.push(`Expected 'adapter.id' as a not empty string, instead of ${id} `)
+    errors.push(`Expected 'adapter.id' as a not empty string, instead of ${id}.`)
   }
 
   const k2 = kindOf(parent_id)
   if (parent_id && k2 !== 'string') {
-    errors.push(`Expected 'adapter.parent_id' as a not empty string, instead of ${parent_id} `)
+    errors.push(`Expected 'adapter.parent_id' as a not empty string, instead of ${parent_id}.`)
   }
 
   const k3 = kindOf(parent_prop)
   if (parent_prop && k3 !== 'string') {
-    errors.push(`Expected 'adapter.parent_prop' as a not empty string, instead of ${parent_prop} `)
+    errors.push(`Expected 'adapter.parent_prop' as a not empty string, instead of ${parent_prop}.`)
   }
 
   const k4 = kindOf(children_prop)
   if (children_prop && k4 !== 'string') {
-    errors.push(`Expected 'adapter.children_prop' as a not empty string, instead of ${children_prop} `)
+    errors.push(`Expected 'adapter.children_prop' as a not empty string, instead of ${children_prop}.`)
   }
 
   const k5 = kindOf(container_prop)
   if (container_prop && k5 !== 'string') {
-    errors.push(`Expected 'adapter.container_prop' as a not empty string, instead of ${container_prop} `)
+    errors.push(`Expected 'adapter.container_prop' as a not empty string, instead of ${container_prop}.`)
   }
 
   if (children_prop) {
     const k6 = kindOf(is_sub_tree)
     if (is_sub_tree && k6 !== 'function') {
-      errors.push(`Expected 'adapter.is_sub_tree' as a not empty string, instead of ${container_prop} `)
+      errors.push(`Expected 'adapter.is_sub_tree' as a not empty string, instead of ${container_prop}.`)
     }
   }
 

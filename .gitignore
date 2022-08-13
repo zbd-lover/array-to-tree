@@ -3,3 +3,6 @@ node_modules
 dist
 es
 lib
+examples
+/src/**/__time__/result/*
+/src/**/__time__/datasource.json

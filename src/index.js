@@ -4,4 +4,3 @@ import t2a from './tree-to-array'
 export const treeToArray = t2a
 
 export const arrayToTree = a2t
-// export default arrayToTree

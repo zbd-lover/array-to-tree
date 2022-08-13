@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node scripts/test.ts",
+    "download": "node --experimental-modules ./src/array-to-tree/__time__/download.js ",
+    "test:time": "npm run download & node --experimental-modules ./src/array-to-tree/__time__/run.js ",
+    "fix:lint": "eslint --fix",
+    "pre-publish": ""
   },
   "keywords": [],
   "author": "",
@@ -12,5 +17,12 @@
   "dependencies": {
     "is-plain-obj": "^4.1.0",
     "kind-of": "^6.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.21.0",
+    "esm": "^3.2.25",
+    "got": "^12.3.1",
+    "rollup": "^2.77.3",
+    "smart-arraytotree": "^1.1.2"
   }
 }

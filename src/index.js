@@ -1,6 +1,5 @@
-import a2t from './array-to-tree'
-import t2a from './tree-to-array'
+import arrayToTree from './to-tree'
+import t2a from './to-array'
 
 export const treeToArray = t2a
-
-export const arrayToTree = a2t
+export default arrayToTree

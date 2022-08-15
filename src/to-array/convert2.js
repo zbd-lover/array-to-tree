@@ -1,16 +1,16 @@
-// 根据叶子结点进行平铺
-function transform2(data, adapter) {
+/** Flatten nodes, the first-element as leaf node. */
+export default function convert2 (data, adapter) {
   const {
     id = 'id',
     parent_prop = 'parent',
     children_prop,
-    container_prop
+    container_prop,
   } = adapter
 
   const result = []
   const collected = new Map()
 
-  function recur(node) {
+  function recur (node) {
     const nodeValue = { ...(container_prop ? node[container_prop] : node) }
     const nodeId = nodeValue[id]
     if (collected.has(nodeId)) return
@@ -24,7 +24,7 @@ function transform2(data, adapter) {
     parent && recur(parent)
   }
 
-  for (let i = 0; i <= data.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     recur(data[i])
   }
 

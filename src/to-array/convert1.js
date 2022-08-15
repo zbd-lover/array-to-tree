@@ -1,15 +1,11 @@
-// 根据分支结点进行平铺
-function transform2(data, adapter) {
-  const {
-    parent_prop,
-    children_prop = 'children',
-    container_prop
-  } = adapter
+/** Flatten nodes, the first-element as the topest branch node. */
+export default function convert1 (data, adapter) {
+  const { parent_prop, children_prop = 'children', container_prop} = adapter
 
   const result = []
 
-  function recur(nodes) {
-    for (let i = 0, node, nodeValue, children; i <= nodes.length; i++) {
+  function recur (nodes) {
+    for (let i = 0, node, nodeValue, children; i < nodes.length; i++) {
       node = nodes[i]
       nodeValue = { ...(container_prop ? node[container_prop] : node) }
       children = node[children_prop] || []

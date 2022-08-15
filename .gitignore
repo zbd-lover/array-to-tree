@@ -4,5 +4,5 @@ dist
 es
 lib
 examples
-/src/**/__time__/result/*
-/src/**/__time__/datasource.json
+/test/__time__/result/*.json
+/test/__time__/datasource.json

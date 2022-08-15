@@ -4,25 +4,46 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "src",
+    "index.d.ts"
+  ],
   "scripts": {
-    "test": "node scripts/test.ts",
-    "download": "node --experimental-modules ./src/array-to-tree/__time__/download.js ",
-    "test:time": "npm run download & node --experimental-modules ./src/array-to-tree/__time__/run.js ",
-    "fix:lint": "eslint --fix",
-    "pre-publish": ""
+    "clean": "rimraf lib dist es",
+    "download": "node --experimental-modules ./test/__time__/download.js ",
+    "clean:time.test": "rimraf test/__time__/result/*",
+    "test:time": "npm run clean:time.test && npm run download && node --experimental-specifier-resolution=node  --experimental-modules ./test/__time__/run.js ",
+    "lint": "eslint --ext js,ts src test",
+    "fix:lint": "eslint ./src ./test --fix ",
+    "build": "rollup -c",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "prepublish": "npm run clean && npm run fix:lint && npm run lint && npm run test"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "is-plain-obj": "^4.1.0",
     "kind-of": "^6.0.3"
   },
   "devDependencies": {
-    "eslint": "^8.21.0",
-    "esm": "^3.2.25",
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/eslint-parser": "^7.18.9",
+    "@babel/preset-env": "^7.18.10",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@types/jest": "^28.1.6",
+    "deep-equal": "^2.0.5",
+    "eslint": "^8.22.0",
     "got": "^12.3.1",
-    "rollup": "^2.77.3",
+    "jest": "^28.1.3",
+    "performant-array-to-tree": "^1.11.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.78.0",
+    "rollup-plugin-terser": "^7.0.2",
     "smart-arraytotree": "^1.1.2"
   }
 }

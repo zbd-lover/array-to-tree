@@ -113,3 +113,52 @@ describe('test a-to-t options ', () => {
     ).toThrow()
   })
 })
+
+describe('test strict mode', () => {
+  const config = {
+    strict: true
+  }
+  test('should appear `duplicated id` error', () => {
+    const data = [
+      {
+        id: 1,
+      },
+      {
+        id: 1,
+      }
+    ]
+    expect(() => arrayToTree(data, config)).toThrow('duplicated id')
+  })
+
+  test('should appear `self.id equals oneself ancestor.id` error', () => {
+    const data = [
+      {
+        id: 1,
+        parent_id: 1
+      },
+      {
+        id: 4,
+        parent_id: 3
+      },
+      {
+        id: 3,
+        parent_id: 4,
+      }
+    ]
+    expect(() => arrayToTree(data, config)).toThrow('self.id equals oneself ancestor.id')
+  })
+
+  test('should appear `unknown parent_id` erorr', () => {
+    const data = [
+      {
+        id: 1,
+        parent_id: 4
+      },
+      {
+        id: 2,
+        parent_id: 1
+      }
+    ]
+    expect(() => arrayToTree(data, config)).toThrow('unknown parent_id')
+  })
+})

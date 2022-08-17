@@ -2,7 +2,7 @@ import fs from 'fs'
 import arrayToTree1 from '../../src/to-tree/index'
 import arrayToTree2 from 'smart-arraytotree'
 import pkg from 'performant-array-to-tree'
-const { arrayToTree: arrayToTree3} = pkg
+const { arrayToTree: arrayToTree3 } = pkg
 
 const test = async () => {
   const _test = (data) => {
@@ -31,7 +31,7 @@ const test = async () => {
     }
     const t3 = () => {
       console.time('convert2')
-      const res = arrayToTree2(d3, { id:'regionId', pid:'parentId', firstPid:null })
+      const res = arrayToTree2(d3, { id: 'regionId', pid: 'parentId', firstPid: null })
       console.timeEnd('convert2')
       return res
     }
@@ -57,14 +57,20 @@ const test = async () => {
       } else {
         const d = JSON.parse(data)
         const nodes = _test(d)
-        nodes.forEach((node, index) => {
-          fs.writeFile(
-            `./test/__time__/result/${index + 1}.json`,
-            JSON.stringify(node),
-            {},
-            () => null
-          )
-        })
+        try {
+          fs.mkdirSync('./test/__time__/result')
+          nodes.forEach((node, index) => {
+            fs.writeFile(
+              `./test/__time__/result/${index + 1}.json`,
+              JSON.stringify(node),
+              {},
+              () => null
+            )
+          })
+        } catch (error) {
+          console.log('write failed')
+        }
+
       }
     }
   )

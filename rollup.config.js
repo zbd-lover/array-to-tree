@@ -18,8 +18,6 @@ const external = [
   ...Object.keys(pkg.peerDependencies || {})
 ].map(name => RegExp(`^${name}($|/)`))
 
-console.log(external)
-
 export default defineConfig([
   // CommonJS
   {

@@ -1,8 +1,10 @@
 {
   "name": "array-to-treejs",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Convert array to tree fastly, and opposite.",
+  "main": "lib/array-to-tree.js",
+  "unpkg": "dist/array-to-tree.js",
+  "module": "es/array-to-tree.js",
   "type": "module",
   "typings": "index.d.ts",
   "files": [
@@ -23,7 +25,17 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "prepublish": "npm run clean && npm run fix:lint && npm run lint && npm run test"
   },
-  "keywords": [],
+  "keywords": [
+    "array-to-tree",
+    "tree-to-array",
+    "unflatten",
+    "array",
+    "list",
+    "tree",
+    "parent",
+    "leaf",
+    "branch"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {

@@ -1,3 +1,4 @@
+import clone from 'clone'
 import treeToArray from '../../src/to-array'
 
 const data1 = [
@@ -107,57 +108,52 @@ const data2 = [
   },
 ]
 
-const target = [
-  {
-    _id: 1,
-  },
-  {
-    _id: 7,
-    p_id: 1,
-  },
-  {
-    _id: 2,
-    p_id: 7,
-  },
-  {
-    _id: 5,
-    p_id: 2,
-  },
-  {
-    _id: 4,
-    p_id: 7,
-  },
-  {
-    _id: 3,
-    p_id: 4,
-    state: {
-      name: 'zbd',
-    },
-  },
-  {
-    _id: 100,
-    p_id: 3,
-  },
-]
-
 describe('test root=\'branch\', tree to array.', () => {
-  test('specify children_prop', () => {
-    const nodes = treeToArray(data1, {
+  test('specify children_prop only', () => {
+    const origin = clone(data1)
+    const config = {
       id: '_id',
       root: 'branch',
       children_prop: 'children',
-      parent_prop: 'parent',
+    }
+    const nodes = treeToArray(data1, config)
+    expect(nodes).valueCheck3({
+      origin,
+      idKey: config.id,
+      children_prop: config.children_prop,
     })
-    expect(nodes).toEqual(target)
   })
 
-  test('specify children_prop and container_prop', () => {
-    const nodes = treeToArray(data2, {
+  test('specify container_prop only', () => {
+    const origin = clone(data2)
+    const config = {
       id: '_id',
-      children_prop: 'children',
-      container_prop: 'data',
-      parent_prop: 'parent',
+      root: 'branch',
+      container_prop: 'data'
+    }
+    const nodes = treeToArray(data2, config)
+    expect(nodes).valueCheck3({
+      origin,
+      idKey: config.id,
+      children_prop: 'children', // default
+      container_prop: config.container_prop
     })
-    expect(nodes).toEqual(target)
+  })
+
+  test('specify children_prop and container_prop only', () => {
+    const origin = clone(data2)
+    const config = {
+      id: '_id',
+      root: 'branch',
+      children_prop: 'children',
+      container_prop: 'data'
+    }
+    const nodes = treeToArray(data2, config)
+    expect(nodes).valueCheck3({
+      origin,
+      idKey: config.id,
+      children_prop: config.children_prop,
+      container_prop: config.container_prop
+    })
   })
 })

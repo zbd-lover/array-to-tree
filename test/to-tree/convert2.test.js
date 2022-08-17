@@ -1,17 +1,20 @@
+import clone from 'clone'
 import arrayToTree from '../../src/to-tree'
 
-function randomSort (array) {
+function randomSort(array) {
   array.sort(() => Math.random() < 0.5 ? 1 : -1)
   return array
-}
-
-function deepClone (v) {
-  return JSON.parse(JSON.stringify(v))
 }
 
 const data = [
   {
     _id: 1,
+  },
+  {
+    _id: 99,
+    value: {
+      babel: true
+    }
   },
   {
     _id: 3,
@@ -51,8 +54,8 @@ describe('test root=\'leaf\', array to tree.', () => {
         parent_prop: 'parent',
         root: 'leaf',
       }
-      const datasource = randomSort(deepClone(data))
-      const copy = deepClone(datasource)
+      const datasource = randomSort(clone(data))
+      const copy = clone(datasource)
       const nodes = arrayToTree(
         datasource,
         config
@@ -71,8 +74,8 @@ describe('test root=\'leaf\', array to tree.', () => {
         children_prop: 'children',
         root: 'leaf',
       }
-      const datasource = randomSort(deepClone(data))
-      const copy = deepClone(datasource)
+      const datasource = randomSort(clone(data))
+      const copy = clone(datasource)
       const nodes = arrayToTree(
         datasource,
         config
@@ -84,7 +87,28 @@ describe('test root=\'leaf\', array to tree.', () => {
         parent_prop: 'parent' // default
       })
     })
-    
+
+    test('specify container_prop only', () => {
+      const config = {
+        id: '_id',
+        parent_id: 'p_id',
+        container_prop: 'data',
+        root: 'leaf',
+      }
+      const datasource = randomSort(clone(data))
+      const copy = clone(datasource)
+      const nodes = arrayToTree(
+        datasource,
+        config
+      )
+      expect(nodes).valueCheck2({
+        origin: copy,
+        idKey: config.id,
+        container_prop: config.container_prop,
+        parent_prop: 'parent' // default
+      })
+    })
+
     test('specify parent_prop and container_prop', () => {
       const config = {
         id: '_id',
@@ -93,8 +117,8 @@ describe('test root=\'leaf\', array to tree.', () => {
         container_prop: 'data',
         root: 'leaf',
       }
-      const datasource = randomSort(deepClone(data))
-      const copy = deepClone(datasource)
+      const datasource = randomSort(clone(data))
+      const copy = clone(datasource)
       const nodes = arrayToTree(
         datasource,
         config
@@ -115,8 +139,8 @@ describe('test root=\'leaf\', array to tree.', () => {
         container_prop: 'data',
         root: 'leaf',
       }
-      const datasource = randomSort(deepClone(data))
-      const copy = deepClone(datasource)
+      const datasource = randomSort(clone(data))
+      const copy = clone(datasource)
       const nodes = arrayToTree(
         datasource,
         config
@@ -138,8 +162,8 @@ describe('test root=\'leaf\', array to tree.', () => {
         parent_prop: 'data',
         root: 'leaf',
       }
-      const datasource = randomSort(deepClone(data))
-      const copy = deepClone(datasource)
+      const datasource = randomSort(clone(data))
+      const copy = clone(datasource)
       const nodes = arrayToTree(
         datasource,
         config
@@ -161,8 +185,8 @@ describe('test root=\'leaf\', array to tree.', () => {
         parent_prop: 'parent',
         root: 'leaf',
       }
-      const datasource = randomSort(deepClone(data))
-      const copy = deepClone(datasource)
+      const datasource = randomSort(clone(data))
+      const copy = clone(datasource)
       const nodes = arrayToTree(
         datasource,
         config
@@ -179,7 +203,7 @@ describe('test root=\'leaf\', array to tree.', () => {
 
   describe('check the value reference', () => {
     test('specify parent_prop and children_prop', () => {
-      const nodes = arrayToTree(deepClone(data), {
+      const nodes = arrayToTree(clone(data), {
         id: '_id',
         parent_id: 'p_id',
         children_prop: 'children',
@@ -188,7 +212,21 @@ describe('test root=\'leaf\', array to tree.', () => {
       })
 
       // references of child.parent and parent.children is correct
-      expect(nodes).isInfiniteRef2(nodes)
+      expect(nodes).isInfiniteRef2()
+    })
+
+    test('specify parent_prop and children_prop and container_prop', () => {
+      const nodes = arrayToTree(clone(data), {
+        id: '_id',
+        parent_id: 'p_id',
+        children_prop: 'children',
+        parent_prop: 'parent',
+        container_prop: 'data',
+        root: 'leaf',
+      })
+
+      // references of child.parent and parent.children is correct
+      expect(nodes).isInfiniteRef2()
     })
   })
 })

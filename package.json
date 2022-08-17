@@ -17,7 +17,7 @@
     "clean:time.test": "rimraf test/__time__/result/*",
     "test:time": "npm run clean:time.test && npm run download && node --experimental-specifier-resolution=node  --experimental-modules ./test/__time__/run.js ",
     "lint": "eslint --ext js,ts src test",
-    "fix:lint": "eslint ./src ./test --fix ",
+    "fix:lint": "eslint  --fix ./src ./test",
     "build": "rollup -c",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "prepublish": "npm run clean && npm run fix:lint && npm run lint && npm run test"
@@ -36,6 +36,7 @@
     "@babel/preset-env": "^7.18.10",
     "@rollup/plugin-babel": "^5.3.1",
     "@types/jest": "^28.1.6",
+    "clone": "^2.1.2",
     "deep-equal": "^2.0.5",
     "eslint": "^8.22.0",
     "got": "^12.3.1",

@@ -1,3 +1,4 @@
+import clone from 'clone'
 import treeToArray from '../../src/to-array'
 
 const data1 = [
@@ -102,56 +103,36 @@ const data2 = [
   },
 ]
 
-const target = [
-  {
-    _id: 5,
-    p_id: 2,
-  },
-  {
-    _id: 2,
-    p_id: 7,
-  },
-  {
-    _id: 7,
-    p_id: 1,
-  },
-  {
-    _id: 1,
-  },
-  {
-    _id: 100,
-    p_id: 3,
-  },
-  {
-    _id: 3,
-    p_id: 4,
-    state: {
-      name: 'zbd',
-    },
-  },
-  {
-    _id: 4,
-    p_id: 7,
-  },
-]
-
 describe('test root=\'leaf\', tree to array.', () => {
-  test('specify children_prop', () => {
-    const nodes = treeToArray(data1, {
+  test('specify parent_prop', () => {
+    const origin = clone(data1)
+    const config = {
       id: '_id',
       root: 'leaf',
-      children_prop: 'children',
+      parent_prop: 'parent',
+    }
+    const nodes = treeToArray(clone(data1), config)
+    expect(nodes).valueCheck4({
+      origin,
+      idKey: config.id,
+      parent_prop: config.parent_prop
     })
-    expect(nodes).toEqual(target)
   })
 
   test('specify children_prop and container_prop', () => {
-    const nodes = treeToArray(data2, {
+    const origin = clone(data2)
+    const config = {
       id: '_id',
       root: 'leaf',
-      children_prop: 'children',
-      container_prop: 'data',
+      parent_prop: 'parent',
+      container_prop: 'data'
+    }
+    const nodes = treeToArray(clone(data2), config)
+    expect(nodes).valueCheck4({
+      origin,
+      idKey: config.id,
+      parent_prop: config.parent_prop,
+      container_prop: config.container_prop
     })
-    expect(nodes).toEqual(target)
   })
 })

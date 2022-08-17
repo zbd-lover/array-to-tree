@@ -2,10 +2,10 @@ import equal from 'deep-equal'
 
 expect.extend({
   // array-to-tree adapter.root = branch
-  isInfiniteRef1 (data) {
+  isInfiniteRef1(data) {
     let pass = true
 
-    function recur (parent) {
+    function recur(parent) {
       if (!pass) return
       const children = parent.children
       for (let i = 0, node; i <= children.length; i++) {
@@ -29,10 +29,10 @@ expect.extend({
   },
 
   // array-to-tree adapter.root = leaf
-  isInfiniteRef2 (data) {
+  isInfiniteRef2(data) {
     let pass = true
 
-    function recur (child) {
+    function recur(child) {
       if (!pass) return
       const parent = child.parent
       if (!parent) return
@@ -63,7 +63,7 @@ expect.extend({
   },
 
   // array-to-tree adapter.root = branch
-  valueCheck1 (data, {
+  valueCheck1(data, {
     origin,
     idKey,
     children_prop,
@@ -71,13 +71,12 @@ expect.extend({
     container_prop,
   }) {
     let pass = true
-
     const valueMap = new Map()
     origin.forEach((item) => {
       valueMap.set(item[idKey], item)
     })
 
-    function getNodeValue (node) {
+    function getNodeValue(node) {
       let nodeValue
       if (container_prop) {
         nodeValue = node[container_prop]
@@ -89,7 +88,7 @@ expect.extend({
       return nodeValue
     }
 
-    function recur (nodes) {
+    function recur(nodes) {
       if (!pass) return
       for (let i = 0, children, node, nodeId, nodeValue; i < nodes.length; i++) {
         node = nodes[i]
@@ -120,7 +119,7 @@ expect.extend({
   },
 
   // array-to-tree adapter.root = leaf
-  valueCheck2 (data, {
+  valueCheck2(data, {
     origin,
     idKey,
     children_prop,
@@ -136,7 +135,7 @@ expect.extend({
 
     const hasAppearedMap = new Map()
 
-    function getNodeValue (node) {
+    function getNodeValue(node) {
       let nodeValue
       if (container_prop) {
         nodeValue = node[container_prop]
@@ -148,7 +147,7 @@ expect.extend({
       return nodeValue
     }
 
-    function recur (parent) {
+    function recur(parent) {
       if (!pass || !parent) return
       const nodeValue = getNodeValue(parent)
       const nodeId = nodeValue[idKey]
@@ -177,6 +176,166 @@ expect.extend({
     return {
       pass,
       message: () => 'incorrect value'
+    }
+  },
+
+  // tree-to-array adpater.root = branch
+  valueCheck3(data, {
+    // tree
+    origin,
+    idKey,
+    children_prop,
+    parent_prop,
+    container_prop
+  }) {
+    function findNode(nodes, id) {
+      for (let i = 0, node, nodeId, nodeValue; i < nodes.length; i++) {
+        node = nodes[i]
+        nodeValue = getNodeValue(node)
+        nodeId = nodeValue[idKey]
+        if (id === nodeId) {
+          return node
+        }
+        const result = findNode(node[children_prop], id)
+        if (result) return result
+      }
+    }
+
+    function getNodesCount() {
+      let count = 0
+
+      function addCount(node) {
+        const children = node[children_prop] || []
+        count += children.length
+        for (let i = 0; i < children.length; i++) {
+          addCount(children[i])
+        }
+      }
+
+      const root = {}
+      root[children_prop] = origin
+
+      addCount(root)
+
+      return count
+    }
+
+    function getNodeValue(node) {
+      let nodeValue
+      if (container_prop) {
+        nodeValue = node[container_prop]
+      } else {
+        nodeValue = { ...node }
+        children_prop && delete nodeValue[children_prop]
+        parent_prop && delete nodeValue[parent_prop]
+      }
+      return nodeValue
+    }
+
+    let pass = true
+
+    for (let i = 0, el, node, nodeValue; i < data.length; i++) {
+      el = data[i]
+      node = findNode(origin, el[idKey])
+      nodeValue = getNodeValue(node)
+      if (!equal(nodeValue, el)) {
+        pass = false
+        break
+      }
+    }
+
+    pass = pass && data.length === getNodesCount()
+
+    return {
+      pass,
+      message: () => "incorrect value."
+    }
+  },
+
+  // tree-to-array adpater.root = leaf
+  valueCheck4(data, {
+    // tree
+    origin,
+    idKey,
+    children_prop,
+    parent_prop,
+    container_prop
+  }) {
+
+    function findNode(id) {
+      const hasAppearedSet = new Set()
+      function _findNode(node, id) {
+        if (!node) return
+        const nodeValue = getNodeValue(node)
+        const nodeId = nodeValue[idKey]
+        if (hasAppearedSet.has(nodeId)) {
+          return
+        } else {
+          hasAppearedSet.add(nodeId)
+          if (nodeId === id) {
+            return node
+          }
+          const maybe = _findNode(node[parent_prop], id)
+          if (maybe) return maybe
+        }
+      }
+
+      for (let i = 0, node; i < origin.length; i++) {
+        node = _findNode(origin[i], id)
+        if (node) return node
+      }
+    }
+
+    function getNodesCount() {
+      const hasAppearedSet = new Set()
+
+      function addCount(node) {
+        if (!node) return
+        const value = getNodeValue(node)
+        const nodeId = value[idKey]
+        hasAppearedSet.add(nodeId)
+
+        const parent = node[parent_prop]
+        parent && addCount(parent)
+      }
+
+      for (let i = 0; i < origin.length; i++) {
+        addCount(origin[i])
+      }
+
+      return hasAppearedSet.size
+    }
+
+    function getNodeValue(node) {
+      let nodeValue
+      if (container_prop) {
+        nodeValue = node[container_prop]
+      } else {
+        nodeValue = { ...node }
+        children_prop && delete nodeValue[children_prop]
+        parent_prop && delete nodeValue[parent_prop]
+      }
+      return nodeValue
+    }
+
+    let pass = true
+
+    for (let i = 0, el, node, nodeId, nodeValue; i < data.length; i++) {
+      el = data[i]
+      nodeId = el[idKey]
+      node = findNode(nodeId)
+      nodeValue = getNodeValue(node)
+      if (!equal(nodeValue, el)) {
+        pass = false
+        break
+      }
+    }
+
+    pass = pass && data.length === getNodesCount()
+
+    return {
+      pass,
+      message: () => "incorrect value"
     }
   }
 })

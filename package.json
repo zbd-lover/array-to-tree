@@ -17,7 +17,7 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:zbd-lover/array-to-tree.git"
-  }
+  },
   "scripts": {
     "clean": "rimraf lib dist es",
     "download": "node --experimental-modules ./test/__time__/download.js ",

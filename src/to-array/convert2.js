@@ -1,5 +1,5 @@
 /** Flatten nodes, the first-element as leaf node. */
-export default function convert2 (data, adapter) {
+export default function convert2(data, adapter) {
   const {
     id = 'id',
     parent_prop = 'parent',
@@ -10,8 +10,8 @@ export default function convert2 (data, adapter) {
   const result = []
   const collected = new Map()
 
-  function recur (node) {
-    const nodeValue = { ...(container_prop ? node[container_prop] : node) }
+  function recur(node) {
+    const nodeValue = container_prop ? node[container_prop] : node
     const nodeId = nodeValue[id]
     if (collected.has(nodeId)) return
     const parent = node[parent_prop]

@@ -45,8 +45,41 @@ const data = [
   },
 ]
 
+const data1 = [
+  {
+    id: 1,
+    name: 'Node1',
+    parent_id: undefined
+  },
+  {
+    id: 2,
+    name: 'Node2',
+    parent_id: 1
+  },
+  {
+    id: 3,
+    name: 'Node3',
+    parent_id: 2
+  },
+  {
+    id: 4,
+    name: 'Node4',
+    parent_id: null
+  }
+]
+
 describe('test root=\'branch\', array to tree.', () => {
   describe('check the value', () => {
+    test('secify nothing', () => {
+      const datasource = randomSort(clone(data1))
+      const copy = clone(datasource)
+      const nodes = arrayToTree(datasource)
+      expect(nodes).valueCheck1({
+        origin: copy,
+        idKey: 'id',
+        children_prop: 'children',
+      })
+    })
     test('specify children_prop only', () => {
       const config = {
         id: '_id',

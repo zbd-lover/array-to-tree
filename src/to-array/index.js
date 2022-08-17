@@ -3,7 +3,7 @@ import isPlainObject from 'is-plain-obj'
 import convert1 from './convert1'
 import convert2 from './convert2'
 
-export default function treeToArray (data, adapter) {
+export default function treeToArray (data, adapter = {}) {
   if (kindOf(data) !== 'array') {
     return []
   }
@@ -13,8 +13,8 @@ export default function treeToArray (data, adapter) {
     const msg = `The 'adapter' is invalid, causes: \n ${errors.join('\n')}`
     throw new Error(msg)
   }
-  const { root = 'branch' } = adapter
-  return root === 'branch' ? convert1(data, adapter) : convert2(data, adapter)
+  const { root = 'branch', ...rest } = adapter
+  return root === 'branch' ? convert1(data, rest) : convert2(data, rest)
 }
 
 function validateAdapter (adapter = {}) {

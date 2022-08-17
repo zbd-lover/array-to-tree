@@ -1,7 +1,7 @@
 import clone from 'clone'
 import arrayToTree from '../../src/to-tree'
 
-function randomSort(array) {
+function randomSort (array) {
   array.sort(() => Math.random() < 0.5 ? 1 : -1)
   return array
 }

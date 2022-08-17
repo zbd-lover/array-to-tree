@@ -1,5 +1,5 @@
 {
-  "name": "arr-to-tree",
+  "name": "a-to-treejs",
   "version": "1.0.0",
   "description": "Convert array to tree fastly, and opposite.",
   "main": "lib/array-to-tree.js",

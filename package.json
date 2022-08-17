@@ -14,6 +14,10 @@
     "src",
     "index.d.ts"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:zbd-lover/array-to-tree.git"
+  }
   "scripts": {
     "clean": "rimraf lib dist es",
     "download": "node --experimental-modules ./test/__time__/download.js ",
@@ -36,7 +40,7 @@
     "leaf",
     "branch"
   ],
-  "author": "",
+  "author": "Baodi Zheng",
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.18.9",

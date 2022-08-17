@@ -1,6 +1,6 @@
 # Profile
 Convert array to tree fastly, and opposite.
-[中文版](https://)
+[中文版](https://github.com/zbd-lover/array-to-tree/blob/HEAD/readme.cn.md)
 # Installation
 `npm install arr-to-tree --save`
 # Usage

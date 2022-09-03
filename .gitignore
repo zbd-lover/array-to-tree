@@ -7,3 +7,4 @@ examples
 .npmrc
 /test/__time__/result/*.json
 /test/__time__/datasource.json
+coverage

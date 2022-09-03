@@ -26,7 +26,7 @@
     "lint": "eslint --ext js,ts src test",
     "fix:lint": "eslint  --fix ./src ./test",
     "build": "rollup -c",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "prepublish": "npm run clean && npm run fix:lint && npm run lint && npm run test"
   },
   "keywords": [

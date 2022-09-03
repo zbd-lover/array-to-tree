@@ -1,10 +1,10 @@
 # 简介
 快速的将数组结构数据转为树结构数据，及其逆向操作。
 # 安装
-`npm install arr-to-tree --save`
+`npm i a-to-treejs`
 # 使用
 ```javascript
-import arrayToTree from 'arr-to-tree'
+import arrayToTree from 'a-to-treejs'
 
 const data1 = [
   {

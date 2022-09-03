@@ -2,7 +2,7 @@
 Convert array to tree fastly, and opposite.
 [中文版](https://github.com/zbd-lover/array-to-tree/blob/HEAD/readme.cn.md)
 # Installation
-`npm npm i a-to-treejs`
+`npm i a-to-treejs`
 # Usage
 ```javascript
 import arrayToTree from 'a-to-treejs'
